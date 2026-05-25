@@ -10,6 +10,7 @@ from dataclasses import asdict, dataclass
 from typing import Any, Awaitable, Callable
 
 from mcp import ClientSession, StdioServerParameters
+import mcp.client.stdio as stdio_module
 from mcp.client.stdio import stdio_client
 from rich import box
 from rich.console import Console, Group
@@ -185,23 +186,58 @@ async def case_prompt_fill(config: AcceptanceConfig) -> CaseResult:
 
 
 async def case_shutdown_error(config: AcceptanceConfig) -> CaseResult:
-    proc = await asyncio.create_subprocess_exec(
-        SERVER_COMMAND,
-        *SERVER_ARGS,
-        stdin=asyncio.subprocess.PIPE,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
-    )
-    proc.terminate()
+    params = StdioServerParameters(command=SERVER_COMMAND, args=SERVER_ARGS)
+    original_create_process = stdio_module._create_platform_compatible_process
+    server_process: Any | None = None
+    client_error_detail: str | None = None
+    shutdown_started = False
+    unexpected_success = False
+
+    async def capture_process(*args: Any, **kwargs: Any) -> Any:
+        nonlocal server_process
+        server_process = await original_create_process(*args, **kwargs)
+        return server_process
+
+    stdio_module._create_platform_compatible_process = capture_process
     try:
-        await asyncio.wait_for(proc.wait(), timeout=5)
-    except asyncio.TimeoutError:
-        proc.kill()
-        await proc.wait()
-        raise AssertionError("server process did not terminate cleanly")
-    if proc.returncode is None:
-        raise AssertionError("server process did not report a return code")
-    return CaseResult(6, "server shutdown error", "PASS", "process", f"returncode={proc.returncode}")
+        try:
+            with open(os.devnull, "w", encoding="utf-8") as errlog:
+                async with stdio_client(params, errlog=errlog) as (read, write):
+                    async with ClientSession(read, write) as session:
+                        await session.initialize()
+                        if server_process is None:
+                            raise AssertionError("could not capture stdio server process for shutdown test")
+                        shutdown_started = True
+                        server_process.terminate()
+                        try:
+                            await asyncio.wait_for(server_process.wait(), timeout=5)
+                        except asyncio.TimeoutError:
+                            server_process.kill()
+                            await server_process.wait()
+                            raise AssertionError("server process did not terminate cleanly")
+                        try:
+                            await asyncio.wait_for(session.list_tools(), timeout=3)
+                        except Exception as exc:
+                            message = str(exc) or exc.__class__.__name__
+                            client_error_detail = f"{exc.__class__.__name__}: {message[:120]}"
+                        else:
+                            unexpected_success = True
+        except Exception as exc:
+            if unexpected_success:
+                raise AssertionError("client call unexpectedly succeeded after server shutdown") from exc
+            if not shutdown_started:
+                raise
+            if client_error_detail is None:
+                message = str(exc) or exc.__class__.__name__
+                client_error_detail = f"{exc.__class__.__name__}: {message[:120]}"
+    finally:
+        stdio_module._create_platform_compatible_process = original_create_process
+
+    if unexpected_success:
+        raise AssertionError("client call unexpectedly succeeded after server shutdown")
+    if client_error_detail is None:
+        raise AssertionError("client did not report an error after server shutdown")
+    return CaseResult(6, "server shutdown error", "PASS", "client error", client_error_detail)
 
 
 CaseFn = Callable[[AcceptanceConfig], Awaitable[CaseResult]]
@@ -332,7 +368,7 @@ async def run_acceptance_live(config: AcceptanceConfig, case_filter: str | None 
     selected_cases = select_cases(case_filter)
     states = [CaseState(case_id, scenario) for case_id, scenario, _ in selected_cases]
     results: list[CaseResult] = []
-    console = Console(color_system=None)
+    console = Console()
     with Live(_summary_panel(states), console=console, refresh_per_second=6, screen=False) as live:
         for index, (case_id, scenario, fn) in enumerate(selected_cases):
             states[index].status = "RUNNING"
@@ -350,7 +386,7 @@ async def run_acceptance_live(config: AcceptanceConfig, case_filter: str | None 
 
 def render_summary(result: DemoResult) -> None:
     states = [CaseState(case.id, case.scenario, case.status, case.evidence, case.detail) for case in result.cases]
-    console = Console(color_system=None)
+    console = Console()
     console.print(_summary_panel(states))
 
 

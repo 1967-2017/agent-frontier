@@ -6,6 +6,7 @@ PIP ?= conda run -n $(CONDA_ENV) pip
 DASHBOARD_PYTHON ?= python
 ACCEPTANCE_PYTHON ?= python
 INSPECTOR_PYTHON ?= python
+REPLAY_PYTHON ?= python
 NPX ?= npx.cmd
 
 
@@ -33,7 +34,7 @@ inspector:
 	$(NPX) @modelcontextprotocol/inspector $(INSPECTOR_PYTHON) -m demo1_mcp.server
 
 replay:
-	$(PYTHON) replay.py --trace trace.jsonl --no-delay
+	$(REPLAY_PYTHON) replay.py --trace trace.jsonl --no-delay
 
 clean-trace:
 	$(PYTHON) -c "from pathlib import Path; Path('trace.jsonl').write_text('', encoding='utf-8')"

@@ -14,10 +14,10 @@ agent-frontier/
 
 - Windows PowerShell / Windows Terminal
 - Miniconda 或 Anaconda
-- Node.js / npm / npx
 - Conda 环境名：`agent-frontier`
+- Node.js / npm / npx（仅启动 MCP Inspector 时需要）
 
-> 说明：本项目在 Windows 下使用 `m2-make`，已写入 `demo1-mcp-server/environment.yml`。执行 `make install` 后即可使用 `make` 命令。
+> 说明：本项目在 Windows 下使用 `m2-make`，已写入 `demo1-mcp-server/environment.yml`。创建并激活 Conda 环境后即可使用 `make` 命令。
 
 ## 快速开始
 
@@ -27,11 +27,18 @@ agent-frontier/
 cd E:\AAA\Project\agent-frontier\demo1-mcp-server
 ```
 
-安装依赖：
+安装依赖并激活环境：
 
 ```powershell
-make install
+conda env update -n agent-frontier -f environment.yml --prune
+conda run -n agent-frontier pip install -e .
 conda activate agent-frontier
+```
+
+也可以在未激活环境时从仓库根目录运行：
+
+```powershell
+conda run -n agent-frontier make demo-all
 ```
 
 启动实时 trace 面板：
@@ -64,6 +71,7 @@ http://localhost:6274
 make demo1       # 启动 Demo 1 dashboard
 make demo-all    # 运行 Demo 1 全部验收用例
 make demo-test   # 运行指定验收用例，支持 CASE/SERVICE/METRIC/WINDOW 参数
+make replay      # 回放 Demo 1 trace.jsonl
 ```
 
 示例：

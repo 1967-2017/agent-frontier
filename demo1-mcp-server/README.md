@@ -15,6 +15,14 @@
 
 ```powershell
 cd E:\AAA\Project\agent-frontier\demo1-mcp-server
+conda env update -n agent-frontier -f environment.yml --prune
+conda run -n agent-frontier pip install -e .
+conda activate agent-frontier
+```
+
+也可以使用快捷命令：
+
+```powershell
 make install
 conda activate agent-frontier
 ```
@@ -244,7 +252,7 @@ runbook://payment-api
 | 3 | 调用 `restart_service(payment-api)` | 默认 `dry_run=true` 预演；显式 `dry_run=false` 才真重启 |
 | 4 | 客户端读取 `incident://list` resource | 走 Resource 通道，不是 Tool 调用 |
 | 5 | 客户端唤出 `oncall-triage(service=payment-api)` prompt | 模板被正确填充 |
-| 6 | 关掉 server 进程 | 客户端显示清晰错误，例如 `failed to fetch`，不挂死，不假装成功 |
+| 6 | 关掉 server 进程 | 客户端显示清晰错误，例如 `Connection closed` / `ClosedResourceError`，不挂死，不假装成功 |
 
 ## 9. Trace 与 Dashboard
 
@@ -254,7 +262,7 @@ runbook://payment-api
 trace.jsonl
 ```
 
-`make demo` 会读取该文件并显示实时 trace 与统计面板。
+`make demo` 会读取该文件并显示实时 trace 与统计面板；`make replay` 会按历史顺序回放已有 trace，便于演示和复盘。
 
 如果 dashboard 在某些 PowerShell 环境下刷新异常，可以直接运行：
 
