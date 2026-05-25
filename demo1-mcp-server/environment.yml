@@ -1,0 +1,11 @@
+name: agent-frontier
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - m2-make
+  - pip:
+      - mcp>=1.9.0
+      - rich>=13.7.0
+      - pydantic>=2.7.0

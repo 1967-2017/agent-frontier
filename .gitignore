@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Demo runtime outputs
+demo1-mcp-server/trace.jsonl
+demo1-mcp-server/data/notifications.jsonl
+
+# Tool/editor files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+!demo1-mcp-server/data/logs/*.log

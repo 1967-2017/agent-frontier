@@ -1,0 +1,4 @@
+2026-05-25T09:45:00Z INFO trace_id=ord-2001 order created
+2026-05-25T09:50:00Z WARN trace_id=ord-2002 queue depth above warning threshold
+2026-05-25T09:55:00Z INFO trace_id=ord-2003 queue depth normalized
+2026-05-25T10:00:00Z INFO trace_id=ord-2004 order shipped event published

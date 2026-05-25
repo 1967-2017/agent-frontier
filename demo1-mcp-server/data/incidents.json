@@ -1,0 +1,20 @@
+{
+  "incidents": [
+    {
+      "id": "INC-2026-0525-001",
+      "service": "payment-api",
+      "severity": "high",
+      "status": "open",
+      "summary": "Elevated checkout latency observed in payment-api",
+      "started_at": "2026-05-25T09:55:00Z"
+    },
+    {
+      "id": "INC-2026-0525-002",
+      "service": "order-api",
+      "severity": "medium",
+      "status": "watching",
+      "summary": "Order queue depth briefly exceeded warning threshold",
+      "started_at": "2026-05-25T09:40:00Z"
+    }
+  ]
+}

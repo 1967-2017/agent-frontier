@@ -1,0 +1,19 @@
+{
+  "services": {
+    "payment-api": {
+      "status": "running",
+      "restart_count": 0,
+      "last_restarted_at": null
+    },
+    "order-api": {
+      "status": "running",
+      "restart_count": 0,
+      "last_restarted_at": null
+    },
+    "user-api": {
+      "status": "running",
+      "restart_count": 0,
+      "last_restarted_at": null
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "services": {
+    "payment-api": {
+      "metrics": {
+        "p99": {
+          "unit": "ms",
+          "points": [
+            {"timestamp": "2026-05-25T09:45:00Z", "value": 176},
+            {"timestamp": "2026-05-25T09:50:00Z", "value": 184},
+            {"timestamp": "2026-05-25T09:55:00Z", "value": 211},
+            {"timestamp": "2026-05-25T10:00:00Z", "value": 238},
+            {"timestamp": "2026-05-25T10:05:00Z", "value": 229}
+          ]
+        },
+        "error_rate": {
+          "unit": "percent",
+          "points": [
+            {"timestamp": "2026-05-25T09:45:00Z", "value": 0.7},
+            {"timestamp": "2026-05-25T09:50:00Z", "value": 0.9},
+            {"timestamp": "2026-05-25T09:55:00Z", "value": 1.2},
+            {"timestamp": "2026-05-25T10:00:00Z", "value": 1.4},
+            {"timestamp": "2026-05-25T10:05:00Z", "value": 1.1}
+          ]
+        }
+      }
+    },
+    "order-api": {
+      "metrics": {
+        "p99": {
+          "unit": "ms",
+          "points": [
+            {"timestamp": "2026-05-25T09:45:00Z", "value": 121},
+            {"timestamp": "2026-05-25T09:50:00Z", "value": 119},
+            {"timestamp": "2026-05-25T09:55:00Z", "value": 124},
+            {"timestamp": "2026-05-25T10:00:00Z", "value": 127},
+            {"timestamp": "2026-05-25T10:05:00Z", "value": 122}
+          ]
+        },
+        "error_rate": {
+          "unit": "percent",
+          "points": [
+            {"timestamp": "2026-05-25T09:45:00Z", "value": 0.2},
+            {"timestamp": "2026-05-25T09:50:00Z", "value": 0.2},
+            {"timestamp": "2026-05-25T09:55:00Z", "value": 0.3},
+            {"timestamp": "2026-05-25T10:00:00Z", "value": 0.2},
+            {"timestamp": "2026-05-25T10:05:00Z", "value": 0.2}
+          ]
+        }
+      }
+    },
+    "user-api": {
+      "metrics": {
+        "p99": {
+          "unit": "ms",
+          "points": [
+            {"timestamp": "2026-05-25T09:45:00Z", "value": 95},
+            {"timestamp": "2026-05-25T09:50:00Z", "value": 96},
+            {"timestamp": "2026-05-25T09:55:00Z", "value": 93},
+            {"timestamp": "2026-05-25T10:00:00Z", "value": 94},
+            {"timestamp": "2026-05-25T10:05:00Z", "value": 97}
+          ]
+        },
+        "error_rate": {
+          "unit": "percent",
+          "points": [
+            {"timestamp": "2026-05-25T09:45:00Z", "value": 0.1},
+            {"timestamp": "2026-05-25T09:50:00Z", "value": 0.1},
+            {"timestamp": "2026-05-25T09:55:00Z", "value": 0.1},
+            {"timestamp": "2026-05-25T10:00:00Z", "value": 0.1},
+            {"timestamp": "2026-05-25T10:05:00Z", "value": 0.1}
+          ]
+        }
+      }
+    }
+  }
+}

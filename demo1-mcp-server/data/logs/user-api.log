@@ -1,0 +1,4 @@
+2026-05-25T09:45:00Z INFO trace_id=usr-3001 profile read completed
+2026-05-25T09:50:00Z INFO trace_id=usr-3002 login completed
+2026-05-25T09:55:00Z INFO trace_id=usr-3003 token refresh completed
+2026-05-25T10:00:00Z WARN trace_id=usr-3004 cache miss rate above baseline

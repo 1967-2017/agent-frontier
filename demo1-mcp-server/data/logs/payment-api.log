@@ -1,0 +1,5 @@
+2026-05-25T09:45:00Z INFO trace_id=pay-1001 checkout request completed
+2026-05-25T09:50:00Z WARN trace_id=pay-1002 downstream processor latency above warning threshold
+2026-05-25T09:55:00Z ERROR trace_id=pay-1003 checkout latency exceeded objective
+2026-05-25T10:00:00Z ERROR trace_id=pay-1004 payment authorization retry budget exhausted
+2026-05-25T10:05:00Z WARN trace_id=pay-1005 downstream latency recovering
