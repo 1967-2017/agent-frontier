@@ -1,19 +1,24 @@
-.PHONY: demo1 demo1-all demo1-test demo1-replay demo-all demo-test replay
+.PHONY: demo1 demo1-all demo1-test replay1 demo2 demo2-all replay2
+
+QUESTIONS ?= 10
 
 demo1:
-	$(MAKE) -C demo1-mcp-server demo
+	$(MAKE) -C demo1-mcp-server demo1
 
 demo1-all:
-	$(MAKE) -C demo1-mcp-server demo-all
+	$(MAKE) -C demo1-mcp-server demo1-all
 
 demo1-test:
-	$(MAKE) -C demo1-mcp-server demo-test CASE="$(CASE)" SERVICE="$(SERVICE)" METRIC="$(METRIC)" WINDOW="$(WINDOW)"
+	$(MAKE) -C demo1-mcp-server demo1-test CASE="$(CASE)" SERVICE="$(SERVICE)" METRIC="$(METRIC)" WINDOW="$(WINDOW)"
 
-demo1-replay:
-	$(MAKE) -C demo1-mcp-server replay
+replay1:
+	$(MAKE) -C demo1-mcp-server replay1
 
-demo-all: demo1-all
+demo2:
+	$(MAKE) -C demo2-reasoning-ttc demo
 
-demo-test: demo1-test
+demo2-all:
+	$(MAKE) -C demo2-reasoning-ttc demo-all QUESTIONS="$(QUESTIONS)"
 
-replay: demo1-replay
+replay2:
+	$(MAKE) -C demo2-reasoning-ttc replay

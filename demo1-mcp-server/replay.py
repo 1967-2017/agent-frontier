@@ -59,7 +59,7 @@ def render_event(event: dict[str, Any]) -> Panel:
 
 
 def replay(events: list[dict[str, Any]], speed: float, no_delay: bool) -> None:
-    console = Console(force_terminal=True, legacy_windows=False)
+    console = Console(color_system=None)
     if not events:
         console.print("No trace events found.", style="yellow")
         return

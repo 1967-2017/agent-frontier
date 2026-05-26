@@ -41,7 +41,7 @@ conda run -n agent-frontier pip install -e .
 ### 3.1 启动实时 dashboard
 
 ```powershell
-make demo
+make demo1
 ```
 
 该命令启动 TUI dashboard，用于观察 `trace.jsonl` 中的 MCP 调用事件。
@@ -79,7 +79,7 @@ make clean-trace
 ### 3.5 回放 trace
 
 ```powershell
-make replay
+make replay1
 ```
 
 或：
@@ -93,10 +93,10 @@ python replay.py --trace trace.jsonl --no-delay
 ### 4.1 运行全部验收用例
 
 ```powershell
-make demo-all
+make demo1-all
 ```
 
-`demo-all` 会运行 6 个验收用例，并输出左右自适应的 summary 面板：
+`demo1-all` 会运行 6 个验收用例，并输出左右自适应的 summary 面板：
 
 - 左侧：real-time trace
 - 右侧：验收状态汇总
@@ -106,18 +106,18 @@ make demo-all
 ### 4.2 运行指定验收用例
 
 ```powershell
-make demo-test CASE=1
-make demo-test CASE=query_metric
-make demo-test CASE=restart
-make demo-test CASE=resource
-make demo-test CASE=prompt
-make demo-test CASE=shutdown
+make demo1-test CASE=1
+make demo1-test CASE=query_metric
+make demo1-test CASE=restart
+make demo1-test CASE=resource
+make demo1-test CASE=prompt
+make demo1-test CASE=shutdown
 ```
 
 也支持多个用例：
 
 ```powershell
-make demo-test CASE=1,3,5
+make demo1-test CASE=1,3,5
 ```
 
 ### 4.3 自定义测试输入
@@ -125,7 +125,7 @@ make demo-test CASE=1,3,5
 `query_metric` 用例支持自定义参数：
 
 ```powershell
-make demo-test CASE=query_metric SERVICE=payment-api METRIC=p99 WINDOW=10m
+make demo1-test CASE=query_metric SERVICE=payment-api METRIC=p99 WINDOW=10m
 ```
 
 通用参数：
@@ -262,7 +262,7 @@ runbook://payment-api
 trace.jsonl
 ```
 
-`make demo` 会读取该文件并显示实时 trace 与统计面板；`make replay` 会按历史顺序回放已有 trace，便于演示和复盘。
+`make demo1` 会读取该文件并显示实时 trace 与统计面板；`make replay1` 会按历史顺序回放 Demo 1 的已有 trace，便于演示和复盘。
 
 如果 dashboard 在某些 PowerShell 环境下刷新异常，可以直接运行：
 

@@ -20,6 +20,7 @@ env/
 # Demo runtime outputs
 demo1-mcp-server/trace.jsonl
 demo1-mcp-server/data/notifications.jsonl
+demo2-reasoning-ttc/outputs/
 
 # Tool/editor files
 .vscode/

@@ -1,4 +1,4 @@
-.PHONY: env install server dashboard demo demo-all demo-test inspector replay clean-trace
+.PHONY: env install server dashboard demo1 demo1-all demo1-test inspector replay1 clean-trace
 
 CONDA_ENV ?= agent-frontier
 PYTHON ?= conda run -n $(CONDA_ENV) python
@@ -22,18 +22,18 @@ server:
 dashboard:
 	$(DASHBOARD_PYTHON) -m demo1_mcp.dashboard
 
-demo: dashboard
+demo1: dashboard
 
-demo-all:
+demo1-all:
 	$(ACCEPTANCE_PYTHON) -m demo1_mcp.acceptance --no-live
 
-demo-test:
+demo1-test:
 	$(ACCEPTANCE_PYTHON) -m demo1_mcp.acceptance --no-live $(if $(CASE),--case $(CASE),) $(if $(SERVICE),--service $(SERVICE),) $(if $(METRIC),--metric $(METRIC),) $(if $(WINDOW),--window $(WINDOW),)
 
 inspector:
 	$(NPX) @modelcontextprotocol/inspector $(INSPECTOR_PYTHON) -m demo1_mcp.server
 
-replay:
+replay1:
 	$(REPLAY_PYTHON) replay.py --trace trace.jsonl --no-delay
 
 clean-trace:
