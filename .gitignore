@@ -21,6 +21,11 @@ env/
 demo1-mcp-server/trace.jsonl
 demo1-mcp-server/data/notifications.jsonl
 demo2-reasoning-ttc/outputs/
+demo3-browser-agent/outputs/
+demo3-browser-agent/trace.jsonl
+
+# Local AI/editor settings
+.claude/
 
 # Tool/editor files
 .vscode/
