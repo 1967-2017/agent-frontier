@@ -282,7 +282,7 @@ def is_question_level_result(item: dict[str, Any]) -> bool:
 def show_mistake_summary(results_path: Path) -> None:
     mistakes = []
     for item in read_results_jsonl(results_path):
-        if item.get("status") == "ok" and not item.get("correct") and is_question_level_result(item):
+        if not item.get("correct") and is_question_level_result(item):
             mistakes.append(item)
 
     with st.expander("最近错题的 thinking 摘要", expanded=False):
@@ -291,11 +291,25 @@ def show_mistake_summary(results_path: Path) -> None:
             return
 
         for item in reversed(mistakes):
-            title = f"{item['question_id']} · {item['strategy']} · {item['model']}"
+            status = item.get("status")
+            status_label = "调用错误" if status == "error" else "答案错误"
+            title = f"{item['question_id']} · {item['strategy']} · {item['model']} · {status_label}"
             st.markdown(f"**{title}**")
             with st.expander("回答内容", expanded=False):
-                st.write({"target": item.get("target_answer"), "prediction": item.get("extracted_answer")})
-                st.text(item.get("output_text") or "")
+                details = {
+                    "status": status,
+                    "target": item.get("target_answer"),
+                    "prediction": item.get("extracted_answer") or "无",
+                }
+                if status == "error":
+                    details["error"] = item.get("error") or "无错误详情"
+                st.write(details)
+
+                output_text = item.get("output_text")
+                if output_text:
+                    st.text(output_text)
+                else:
+                    st.info("无模型输出。")
 
 
 
