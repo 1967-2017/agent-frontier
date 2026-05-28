@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from fnmatch import fnmatch
 from pathlib import Path
@@ -12,7 +13,9 @@ ENV = dotenv_values(ROOT / ".env")
 
 
 def _env(name: str, default: str = "") -> str:
-    value = ENV.get(name)
+    value = os.environ.get(name)
+    if value is None:
+        value = ENV.get(name)
     if value is None:
         return default
     return str(value)
@@ -122,6 +125,16 @@ def model_config() -> ModelConfig:
     if provider == "openai":
         return ModelConfig(provider, _env("DEMO3_MODEL", config.model), config.api_key_env, config.base_url_env)
     return config
+
+
+def browser_task_goal(task_id: str, field: str, default: str = "") -> str:
+    key = f"DEMO3_{task_id.replace('-', '_').upper()}_{field.upper()}"
+    return _env(key, default)
+
+
+def browser_task_target_count(task_id: str, default: int = 3) -> int:
+    key = f"DEMO3_{task_id.replace('-', '_').upper()}_TARGET_COUNT"
+    return int(_env(key, str(default)))
 
 
 def blacklist_patterns() -> list[str]:

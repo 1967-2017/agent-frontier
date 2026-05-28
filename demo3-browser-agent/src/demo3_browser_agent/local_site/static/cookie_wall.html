@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cookie 弹窗演示工单</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div id="cookie-wall" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
+    <section class="modal-card">
+      <p class="eyebrow">Cookie / 登录墙弹窗</p>
+      <h1 id="cookie-title">We use cookies</h1>
+      <p>请选择 Accept cookies 继续作为访客查看并提交工单。</p>
+      <div class="modal-actions">
+        <button id="accept-cookies" type="button">Accept cookies</button>
+        <button id="continue-guest" type="button" class="secondary-button">Continue as guest</button>
+      </div>
+    </section>
+  </div>
+
+  <main class="shell">
+    <section class="case-card" aria-label="工单事实">
+      <p class="eyebrow">弹窗处理演示</p>
+      <h1>checkout-api 事件受理</h1>
+      <dl>
+        <div><dt>客户等级</dt><dd id="account-tier">企业客户</dd></div>
+        <div><dt>事件严重级别</dt><dd id="incident-severity">高</dd></div>
+        <div><dt>当前症状</dt><dd>页面加载时被 cookie 弹窗遮挡，需要先关闭弹窗再填写工单。</dd></div>
+      </dl>
+    </section>
+
+    <form id="intake-form" class="form-card">
+      <label>请求人姓名
+        <input id="requester" name="requester" autocomplete="off" placeholder="请输入姓名">
+      </label>
+      <label>服务名称
+        <input id="service" name="service" autocomplete="off" placeholder="请输入服务名称">
+      </label>
+      <label>事件摘要
+        <textarea id="summary" name="summary" placeholder="请填写简短事件摘要"></textarea>
+      </label>
+      <fieldset>
+        <legend>升级路径</legend>
+        <label><input type="radio" name="route" value="优先升级"> 优先升级</label>
+        <label><input type="radio" name="route" value="标准队列"> 标准队列</label>
+      </fieldset>
+      <button id="submit" type="submit">提交工单</button>
+    </form>
+
+    <section id="confirmation" class="confirmation" hidden aria-live="polite"></section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

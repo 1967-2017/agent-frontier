@@ -10,9 +10,10 @@ The default model is `gpt-5.5` via an OpenAI-compatible chat completions endpoin
 
 ## Tasks
 
-- `arxiv`: live arXiv search for `MCP protocol`, collect first 5 titles/authors/abstract first sentences.
+- `ebay`: live eBay search for `USB-C hub`, sort by price plus shipping lowest first, capture the first 3 organic product detail pages.
 - `github-issues`: live GitHub UI for `modelcontextprotocol/servers` open issues with the `bug` label.
 - `local-form`: local controllable support form requiring form filling and a visible conditional branch decision.
+- `modal-wall`: live Cookiebot consent page; identify the cookie popup and reject/dismiss non-essential cookies.
 
 CSV artifacts are written from the model's final structured `finish` payload.
 
@@ -105,4 +106,4 @@ The latest run pointer is `outputs/latest.json`. A Windows-safe top-level copy o
 conda run -n agent-frontier python -m demo3_browser_agent.runner --check-browser
 ```
 
-If arXiv or GitHub cannot be reached with Playwright during verification, stop and decide whether to replace the task or add a fallback.
+If eBay or GitHub cannot be reached with Playwright during verification, stop and decide whether to replace the task or add a fallback.

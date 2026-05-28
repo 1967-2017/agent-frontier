@@ -97,7 +97,9 @@ class TaskState(BaseModel):
 
 class RunState(BaseModel):
     run_id: str
+    mode: str = "interactive"
     status: TaskStatus = TaskStatus.running
+    current_scenario: str | None = None
     current_task: str | None = None
     current_url: str = ""
     current_screenshot: str = ""
@@ -111,3 +113,4 @@ class RunState(BaseModel):
     total_cost_usd: float = 0.0
     tasks: dict[str, TaskState] = Field(default_factory=dict)
     recent_events: list[dict[str, Any]] = Field(default_factory=list)
+    summary: dict[str, Any] = Field(default_factory=dict)

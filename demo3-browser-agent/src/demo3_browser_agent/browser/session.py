@@ -77,5 +77,33 @@ class BrowserSession:
 
 
 async def _visible_text(page: Page) -> str:
-    text = await page.locator("body").inner_text(timeout=1000)
+    text = await page.locator("body").evaluate(
+        r"""
+        body => {
+          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+          const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT);
+          const lines = [];
+          let visited = 0;
+          while (walker.nextNode() && visited < 2500 && lines.length < 500) {
+            visited += 1;
+            const node = walker.currentNode;
+            const value = node.nodeValue.trim();
+            if (!value) continue;
+            const parent = node.parentElement;
+            if (!parent) continue;
+            const style = window.getComputedStyle(parent);
+            if (style.visibility === 'hidden' || style.display === 'none') continue;
+            const range = document.createRange();
+            range.selectNodeContents(node);
+            const rects = Array.from(range.getClientRects());
+            range.detach();
+            if (rects.some(rect => rect.bottom >= 0 && rect.top <= viewportHeight)) {
+              lines.push(value);
+            }
+          }
+          return lines.join('\n');
+        }
+        """,
+        timeout=5000,
+    )
     return "\n".join(line.strip() for line in text.splitlines() if line.strip())[:8000]

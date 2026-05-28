@@ -107,6 +107,48 @@ button {
   padding: 14px 18px;
 }
 
+.secondary-button {
+  background: #eef2f7;
+  color: #162033;
+}
+
+.warning-text {
+  background: #fff7e6;
+  border: 1px solid #f7c566;
+  border-radius: 12px;
+  color: #8a4b00;
+  font-weight: 700;
+  padding: 12px;
+}
+
+.modal-backdrop {
+  align-items: center;
+  background: rgba(15, 23, 42, 0.62);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: 10;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.34);
+  max-width: 520px;
+  padding: 28px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
 .confirmation {
   grid-column: 1 / -1;
   border-color: #12b76a;

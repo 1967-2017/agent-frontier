@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import threading
+import time
 from pathlib import Path
 
 import uvicorn
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, Request
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -15,9 +16,27 @@ def create_app() -> FastAPI:
     app = FastAPI()
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+    network_down_until = {"value": 0.0}
+
     @app.get("/")
     async def index() -> FileResponse:
         return FileResponse(STATIC_DIR / "index.html")
+
+    @app.get("/network-drop")
+    async def network_drop() -> FileResponse:
+        network_down_until["value"] = time.time() + 5
+        return FileResponse(STATIC_DIR / "network_drop.html")
+
+    @app.get("/cookie-wall")
+    async def cookie_wall() -> FileResponse:
+        return FileResponse(STATIC_DIR / "cookie_wall.html")
+
+    @app.post("/api/network-submit")
+    async def network_submit(request: Request) -> JSONResponse:
+        if time.time() < network_down_until["value"]:
+            return JSONResponse({"ok": False, "message": "模拟断网中，请稍后重试"}, status_code=503)
+        payload = await request.json()
+        return JSONResponse({"ok": True, "confirmation": "INC-NETWORK-0427", "payload": payload})
 
     return app
 
